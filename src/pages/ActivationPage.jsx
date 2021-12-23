@@ -48,7 +48,7 @@ export const ActivationPage = () => {
         GradesApp🪄
       </p>
       <div
-        className="w-2/5 min-w-min mx-auto bg-white py-16 px-24 mt-20 shadow"
+        className="w-134 h-1/2 min-w-max mx-auto bg-white py-16 px-24 mt-20 shadow"
         style={{ "border-radius": "8.5rem" }}
       >
         {isAccountActivated ? (

@@ -119,15 +119,15 @@ export const AuthProvider = ({ children }) => {
       })
         .then((res) => {
           if (!res.ok)
-            return res.text().then((message) => {
-              throw new Error(message);
+            return res.json().then((data) => {
+              data["status"] = res.status;
+              throw new Error(JSON.stringify(data));
             });
           else return res.json();
         })
         .then((response) => {
           setUser(response);
           localStorage.setItem("user", JSON.stringify(response));
-          console.log(response);
           navigate("/");
         })
         .catch((error) => console.log(error.message));
@@ -146,13 +146,14 @@ export const AuthProvider = ({ children }) => {
     })
       .then((res) => {
         if (!res.ok)
-          return res.text().then((message) => {
-            throw new Error(message);
+          return res.json().then((data) => {
+            data["status"] = res.status;
+            throw new Error(JSON.stringify(data));
           });
         else return res.json();
       })
       .then((response) => {
-        toast.info("the verification email was resend", {
+        toast.info("The verification email was resend", {
           position: "top-right",
           autoClose: 20000,
           hideProgressBar: false,
@@ -162,7 +163,18 @@ export const AuthProvider = ({ children }) => {
           progress: undefined,
         });
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        toast.error("An error occurred", {
+          position: "top-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.log(error.message);
+      });
   };
 
   let contextData = {

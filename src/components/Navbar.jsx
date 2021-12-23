@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export const Navbar = () => {
-  let { user, logoutUser } = useContext(AuthContext);
-  let authenticated = user ? true : false;
+  let { logoutUser } = useContext(AuthContext);
 
   return (
     <div className="bg-white shadow flex justify-between items-center px-5 py-1.5">
@@ -13,7 +12,7 @@ export const Navbar = () => {
       </Link>
       <p
         onClick={logoutUser}
-        class="hover:bg-slate-200 rounded-md px-3 py-1 text-gray-700"
+        className="hover:bg-slate-200 rounded-md px-3 py-1 text-gray-700 cursor-pointer duration-150"
       >
         Logout
       </p>
