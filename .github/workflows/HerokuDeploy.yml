@@ -1,0 +1,22 @@
+name: Build and Push Docker Image to Heroku
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  IMAGE_NAME: gradesapp-web
+  HEROKU_API_KEY: "${{ secrets.HEROKU_API_KEY }}"
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Heroku
+        run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+      - name: Build and Push image to Heroku
+        run: |
+          heroku container:push web -a $IMAGE_NAME
+          heroku container:release web -a $IMAGE_NAME
