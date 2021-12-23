@@ -11,18 +11,12 @@ export const Navbar = () => {
       <Link to="/" className="text-2xl font-semibold tracking-wide">
         GradesApp🪄
       </Link>
-      {authenticated ? (
-        <p onClick={logoutUser}>Logout</p>
-      ) : (
-        <div className="flex gap-2">
-          <Link to="/login" class="hover:bg-slate-100 rounded-md px-3 py-1">
-            Login
-          </Link>
-          <Link to="/register" class="hover:bg-slate-100 rounded-md px-3 py-1">
-            Sign Up
-          </Link>
-        </div>
-      )}
+      <p
+        onClick={logoutUser}
+        class="hover:bg-slate-200 rounded-md px-3 py-1 text-gray-700"
+      >
+        Logout
+      </p>
     </div>
   );
 };

@@ -11,7 +11,10 @@ export const LoginPage = () => {
       <p className="text-5xl font-semibold tracking-wide text-center mt-20">
         GradesApp🪄
       </p>
-      <div className="w-2/5 h-1/2 min-w-min mx-auto bg-white py-16 px-24 rounded-full mt-20 shadow flex flex-col place-content-center">
+      <div
+        className="w-2/5 h-1/2 min-w-min mx-auto bg-white py-16 px-24 mt-20 shadow flex flex-col place-content-center"
+        style={{ "border-radius": "8.5rem" }}
+      >
         <p className=" font-bold text-xl mb-4 mt-2">Login to GradesApp</p>
         <form onSubmit={loginUser}>
           {loginErrors.message ? (

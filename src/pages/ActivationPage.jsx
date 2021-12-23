@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const ActivationPage = () => {
   let { token } = useParams();
@@ -24,6 +25,15 @@ export const ActivationPage = () => {
       })
       .then((response) => {
         setIsAccountActivated(true);
+        toast.success("Email successfully verified!", {
+          position: "top-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((error) => {
         console.log(error.message);
@@ -37,7 +47,10 @@ export const ActivationPage = () => {
       <p className="text-5xl font-semibold tracking-wide text-center mt-20">
         GradesApp🪄
       </p>
-      <div className="w-2/5 min-w-min mx-auto bg-white py-16 px-24 rounded-full mt-20 shadow">
+      <div
+        className="w-2/5 min-w-min mx-auto bg-white py-16 px-24 mt-20 shadow"
+        style={{ "border-radius": "8.5rem" }}
+      >
         {isAccountActivated ? (
           <>
             <p className="text-center">
@@ -54,9 +67,13 @@ export const ActivationPage = () => {
               </Link>
               &nbsp;to login into GradesApp.
             </p>
+            <p className="text-center text-6xl mt-2">✨</p>
           </>
         ) : (
-          <p className="text-center">{tokenErrors.detail}</p>
+          <>
+            <p className="text-center">{tokenErrors.detail}</p>
+            <p className="text-center text-6xl mt-2">🔒</p>
+          </>
         )}
       </div>
     </>

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
@@ -85,6 +86,24 @@ export const AuthProvider = ({ children }) => {
       })
       .then((response) => {
         setIsUserCreated(true);
+        toast.success("Account Created!", {
+          position: "top-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        toast.info("A verification email was send", {
+          position: "top-right",
+          autoClose: 20000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((error) => console.log(error.message));
   };
@@ -133,7 +152,15 @@ export const AuthProvider = ({ children }) => {
         else return res.json();
       })
       .then((response) => {
-        //TODO: feedback
+        toast.info("the verification email was resend", {
+          position: "top-right",
+          autoClose: 20000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .catch((error) => console.log(error.message));
   };
