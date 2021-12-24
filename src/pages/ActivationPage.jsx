@@ -44,12 +44,12 @@ export const ActivationPage = () => {
 
   return (
     <>
-      <p className="text-5xl font-semibold tracking-wide text-center mt-20">
+      <h1 className="text-5xl font-semibold tracking-wide text-center mt-20">
         GradesApp🪄
-      </p>
+      </h1>
       <div
-        className="w-134 h-1/2 min-w-max mx-auto bg-white py-16 px-24 mt-20 shadow"
-        style={{ "border-radius": "8.5rem" }}
+        className="w-134 h-1/2 min-w-max mx-auto bg-white py-16 px-24 mt-20 shadow flex flex-col place-content-center"
+        style={{ borderRadius: "8.5rem" }}
       >
         {isAccountActivated ? (
           <>

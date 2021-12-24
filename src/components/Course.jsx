@@ -3,7 +3,7 @@ import React from "react";
 export const Course = () => {
   return (
     <div className="flex gap-3 lg:gap-0">
-      <div className="shadow overflow-hidden border-b border-gray-300 sm:rounded-lg">
+      <div className="shadow overflow-hidden border-b border-gray-300 rounded-lg">
         <table className="table-fixed w-full">
           <thead className="bg-white border-b-2 border-indigo-600">
             <tr>
@@ -52,7 +52,7 @@ export const Course = () => {
       </div>
       <div className="lg:relative">
         <div className="lg:absolute lg:ml-3">
-          <div className="shadow overflow-hidden border-b border-gray-300 sm:rounded-lg">
+          <div className="shadow overflow-hidden border-b border-gray-300 rounded-lg">
             <table className="table-fixed ">
               <thead className="bg-white border-b-2 border-indigo-600 ">
                 <tr>
