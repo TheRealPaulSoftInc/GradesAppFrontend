@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Course } from "./Course";
-export const Semester = (props) => {
-  useEffect(() => console.log(props), []);
-
+export const SemesterView = (props) => {
   return (
     <div className="mx-auto 2xl:w-2/5 xl:w-1/2 lg:w-3/5">
       <h1 className="text-3xl font-semibold mb-4">{props.model.name}</h1>
