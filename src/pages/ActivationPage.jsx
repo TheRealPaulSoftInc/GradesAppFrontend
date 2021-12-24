@@ -47,10 +47,7 @@ export const ActivationPage = () => {
       <h1 className="text-5xl font-semibold tracking-wide text-center mt-20">
         GradesApp🪄
       </h1>
-      <div
-        className="w-134 h-1/2 min-w-max mx-auto bg-white py-16 px-24 mt-20 shadow flex flex-col place-content-center"
-        style={{ borderRadius: "8.5rem" }}
-      >
+      <div className="w-134 h-1/2 min-w-max mx-auto bg-white py-16 px-24 mt-20 shadow flex flex-col place-content-center rounded-2xl">
         {isAccountActivated ? (
           <>
             <p className="text-center">
