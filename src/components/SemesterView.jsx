@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
+import { SemesterContext } from "../context/SemesterContext";
 import { Course } from "./Course";
+
 export const SemesterView = (props) => {
+  let { currentSemester } = useContext(SemesterContext);
+
   return (
-    <div className="mx-auto 2xl:w-2/5 xl:w-1/2 lg:w-3/5">
-      <h1 className="text-3xl font-semibold mb-4">{props.model.name}</h1>
+    <div className="mx-auto 2xl:w-2/5 xl:w-1/2 lg:w-1/2">
+      <h1 className="text-3xl font-semibold mb-4">{currentSemester.name}</h1>
       <div className="flex flex-col justify-center gap-8">
         <Course></Course>
         <button className="mx-auto ring-offset-2 rounded-lg shadow-md hover:shadow-sm overflow-hidden focus:ring focus:ring-indigo-500 h-10 w-10 duration-150">

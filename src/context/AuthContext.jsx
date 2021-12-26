@@ -121,6 +121,7 @@ export const AuthProvider = ({ children }) => {
           if (!res.ok)
             return res.json().then((data) => {
               data["status"] = res.status;
+              logoutUser();
               throw new Error(JSON.stringify(data));
             });
           else return res.json();

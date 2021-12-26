@@ -1,21 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export const SemesterListElement = (props) => {
-  let classes = "flex justify-between group hover:bg-white rounded-md";
-  if (props.isSelected) classes += " bg-slate-200";
+  let wrapClasses =
+    "flex justify-between group hover:bg-white active:bg-slate-50 rounded-md";
+  let buttonClasses =
+    "p-2 pl-6 group-hover:pl-0 grow text-left text-gray-700 hover:text-gray-500";
+  if (props.isSelected) {
+    wrapClasses += " bg-slate-200";
+    buttonClasses += " font-medium";
+  }
 
   return (
-    <div className={classes}>
+    <div className={wrapClasses}>
+      <div
+        className="text-gray-700 hover:text-gray-400 py-2 pl-1 hidden group-hover:flex items-center"
+        {...props.dragHandleProps}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.7"
+            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          />
+        </svg>
+      </div>
       <button
-        className="p-2 grow text-left"
+        className={buttonClasses}
         onClick={() => props.handleClickGet(props.value)}
       >
         {props.value.name}
       </button>
-      <div className="w-max pl-8 p-2 hidden group-hover:flex flex-row gap-1 items-center">
+      <div className="w-max p-2 hidden group-hover:flex flex-row gap-1 items-center">
         <button
-          className="text-gray-700 hover:text-gray-500"
-          onClick={() => props.handleClickCreate()}
+          className="text-gray-700 hover:text-gray-400"
+          onClick={() => props.handleClickCreate(props.key)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
