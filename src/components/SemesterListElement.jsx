@@ -40,7 +40,9 @@ export const SemesterListElement = (props) => {
       <div className="w-max p-2 hidden group-hover:flex flex-row gap-1 items-center">
         <button
           className="text-gray-700 hover:text-gray-400"
-          onClick={() => props.handleClickCreate(props.key)}
+          onClick={() =>
+            props.handleClickCreate(props.value.id, props.value.order + 1)
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +72,7 @@ export const SemesterListElement = (props) => {
         </button>
         <button
           className="text-gray-700 hover:text-red-500"
-          onClick={() => props.handleClickDelete()}
+          onClick={() => props.handleClickDelete(props.value.id)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
