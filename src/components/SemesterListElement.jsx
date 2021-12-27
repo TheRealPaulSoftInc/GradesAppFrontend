@@ -32,6 +32,7 @@ export const SemesterListElement = (props) => {
         </svg>
       </div>
       <button
+        id={`semesterLabel${props.value.id}`}
         className={buttonClasses}
         onClick={() => props.handleClickGet(props.value)}
       >
@@ -59,7 +60,7 @@ export const SemesterListElement = (props) => {
         </button>
         <button
           className="text-gray-700 hover:text-gray-500"
-          onClick={() => props.handleClickEdit()}
+          onClick={() => props.handleClickEdit(props.value)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -45,8 +45,25 @@ export const SemesterList = () => {
     ReactDOM.render(template, element);
   };
 
-  let handleClickEdit = () => {
-    console.log(3);
+  let handleClickEdit = (semester) => {
+    let element = document.getElementById(`semesterLabel${semester.id}`);
+    let handleEvent = () => {
+      let value = element.value;
+      console.log(element);
+      if (value) {
+        updateSemester({ id: semester.id, order: semester.order, name: value });
+      }
+      ReactDOM.render(<div id={`semesterCreate${semester.id}`}></div>, element);
+    };
+    let template = (
+      <OutsideClickHandler handleEvent={handleEvent} className="w-full">
+        <input
+          type="text"
+          className="w-full text-sm border border-gray-300 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 py-1.5 px-3 shadow rounded-lg duration-150"
+        />
+      </OutsideClickHandler>
+    );
+    ReactDOM.render(template, element);
   };
 
   let handleClickDelete = (id) => {

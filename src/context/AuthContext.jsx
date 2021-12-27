@@ -1,10 +1,13 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ApiUrlContext } from "./ApiUrlContext";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  let { apiUrl } = useContext(ApiUrlContext);
+
   let [authToken, setAuthToken] = useState(() => {
     let authTokenStorage = localStorage.getItem("authToken");
     return authTokenStorage ? JSON.parse(authTokenStorage) : null;
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   let loginUser = async (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:8000/api/accounts/login/", {
+    fetch(`${apiUrl}accounts/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     e.preventDefault();
     let password1 = e.target.password1.value;
     let password2 = e.target.password2.value;
-    fetch("http://127.0.0.1:8000/api/accounts/register/", {
+    fetch(`${apiUrl}accounts/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +113,7 @@ export const AuthProvider = ({ children }) => {
 
   let getAuthUser = async () => {
     if (authToken != null) {
-      fetch("http://127.0.0.1:8000/api/accounts/auth-user/", {
+      fetch(`${apiUrl}accounts/auth-user/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +139,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   let resendActivationLink = async (email) => {
-    fetch("http://127.0.0.1:8000/api/accounts/resend/", {
+    fetch(`${apiUrl}accounts/resend/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { ApiUrlContext } from "./ApiUrlContext";
 
 export const SemesterContext = createContext();
 
 export const SemesterProvider = ({ children }) => {
   let { authToken } = useContext(AuthContext);
+  let { apiUrl } = useContext(ApiUrlContext);
+
   let [semesters, setSemesters] = useState([{}]);
   let [currentSemester, setCurrentSemester] = useState({});
   let [currentSemesterId, setCurrentSemesterId] = useState(null);
@@ -29,7 +32,7 @@ export const SemesterProvider = ({ children }) => {
 
   let updateSemester = async (body, reorder = false) => {
     if (authToken != null) {
-      fetch(`http://127.0.0.1:8000/api/grades/semester/${body.id}/`, {
+      fetch(`${apiUrl}grades/semester/${body.id}/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +56,7 @@ export const SemesterProvider = ({ children }) => {
 
   let postSemester = async (body) => {
     if (authToken != null) {
-      fetch("http://127.0.0.1:8000/api/grades/semester/", {
+      fetch(`${apiUrl}grades/semester/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +80,7 @@ export const SemesterProvider = ({ children }) => {
 
   let getSemesters = async () => {
     if (authToken != null) {
-      fetch("http://127.0.0.1:8000/api/grades/semester/?limit=12", {
+      fetch(`${apiUrl}grades/semester/?limit=12`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +106,7 @@ export const SemesterProvider = ({ children }) => {
 
   let deleteSemester = async (id) => {
     if (authToken != null) {
-      fetch(`http://127.0.0.1:8000/api/grades/semester/${id}/`, {
+      fetch(`${apiUrl}grades/semester/${id}/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
