@@ -4,7 +4,7 @@ export const ApiUrlContext = createContext();
 
 export const ApiUrlProvider = ({ children }) => {
   let contextData = {
-    apiUrl: "https://gradesappapi.herokuapp.com/api/api/",
+    apiUrl: "https://gradesappapi.herokuapp.com/api/",
   };
 
   return (
