@@ -48,8 +48,7 @@ export const SemesterList = () => {
   let handleClickEdit = (semester) => {
     let element = document.getElementById(`semesterLabel${semester.id}`);
     let handleEvent = () => {
-      let value = element.value;
-      console.log(element);
+      let value = element.getElementsByTagName("input")[0].value;
       if (value) {
         updateSemester({ id: semester.id, order: semester.order, name: value });
       }
@@ -67,7 +66,10 @@ export const SemesterList = () => {
   };
 
   let handleClickDelete = (id) => {
-    if (semesters.length > 0) deleteSemester(id);
+    if (semesters.length > 0) {
+      setCurrentSemesterId(semesters[0].id);
+      deleteSemester(id);
+    }
   };
 
   let handleOnDragEnd = (result) => {
