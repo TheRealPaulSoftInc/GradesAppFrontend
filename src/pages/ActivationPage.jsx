@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ApiUrlContext } from "../context/ApiUrlContext";
 
 export const ActivationPage = () => {
   let { token } = useParams();
