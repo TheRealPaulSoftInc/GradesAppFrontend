@@ -6,9 +6,10 @@ export const ActivationPage = () => {
   let { token } = useParams();
   let [tokenErrors, setTokenErrors] = useState({});
   let [isAccountActivated, setIsAccountActivated] = useState(false);
+  let { apiUrl } = useContext(ApiUrlContext);
 
   let activateUser = async (e) => {
-    fetch(`http://127.0.0.1:8000/api/accounts/activate/${token}/`, {
+    fetch(`${apiUrl}accounts/activate/${token}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
