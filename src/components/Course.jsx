@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Course = () => {
+export const Course = (props) => {
   return (
     <div className="flex gap-3 lg:gap-0">
       <div className="shadow overflow-hidden border-b border-gray-300 rounded-lg">
@@ -11,7 +11,7 @@ export const Course = () => {
                 colSpan="5"
                 className="bg-indigo-600 text-white font-medium text-lg"
               >
-                Math
+                {props.model.name ? props.model.name : <div>&nbsp;</div>}
               </th>
             </tr>
             <tr>
@@ -39,13 +39,9 @@ export const Course = () => {
           <tbody className="bg-white">
             {/* divide-y divide-gray-200 */}
             <tr>
-              <td colSpan="3" className="px-6 py-4 whitespace-nowrap">
-                ga
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap border-x border-indigo-200">
-                ga
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">ga</td>
+              <td colSpan="3" className="px-6 py-4 whitespace-nowrap"></td>
+              <td className="px-6 py-4 whitespace-nowrap border-x border-indigo-200"></td>
+              <td className="px-6 py-4 whitespace-nowrap"></td>
             </tr>
           </tbody>
         </table>
@@ -81,10 +77,8 @@ export const Course = () => {
               <tbody className="bg-white">
                 {/* divide-y divide-gray-200 */}
                 <tr>
-                  <td className="px-6 py-4 whitespace-nowrap border-r border-indigo-200">
-                    ga
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">ga</td>
+                  <td className="px-6 py-4 whitespace-nowrap border-r border-indigo-200"></td>
+                  <td className="px-6 py-4 whitespace-nowrap"></td>
                 </tr>
               </tbody>
             </table>

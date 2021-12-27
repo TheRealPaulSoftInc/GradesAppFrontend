@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import ReactDOM from "react-dom";
 import { SemesterListElement } from "../components/SemesterListElement";
@@ -66,7 +66,7 @@ export const SemesterList = () => {
   };
 
   let handleClickDelete = (id) => {
-    if (semesters.length > 0) {
+    if (semesters.length > 1) {
       setCurrentSemesterId(semesters[0].id);
       deleteSemester(id);
     }
@@ -81,8 +81,6 @@ export const SemesterList = () => {
       updateSemester({ id: s.id, order: i + 1 });
     });
   };
-
-  useEffect(() => {}, [semesters]);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

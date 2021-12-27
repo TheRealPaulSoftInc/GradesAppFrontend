@@ -1,38 +1,38 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import React, { createContext, useEffect, useState, useContext } from "react";
+import { SemesterContext } from "./SemesterContext";
+import { AuthContext } from "./AuthContext";
 import { ApiUrlContext } from "./ApiUrlContext";
 
-export const SemesterContext = createContext();
+export const CourseContext = createContext();
 
-export const SemesterProvider = ({ children }) => {
+export const CourseProvider = ({ children }) => {
   let { authToken } = useContext(AuthContext);
   let { apiUrl } = useContext(ApiUrlContext);
+  let { currentSemesterId } = useContext(SemesterContext);
 
-  let [semesters, setSemesters] = useState([{}]);
-  let [currentSemester, setCurrentSemester] = useState({});
-  let [currentSemesterId, setCurrentSemesterId] = useState(null);
+  let [courses, setCourses] = useState([{}]);
   let [toggleEffects, setToggleEffects] = useState(false);
 
   useEffect(() => {
-    getSemesters();
-  }, [toggleEffects, authToken]);
+    if (currentSemesterId) getCourses(currentSemesterId);
+  }, [toggleEffects, currentSemesterId]);
 
   useEffect(() => {
-    if (semesters && Object.keys(semesters[0]).length != 0) {
-      semesters.map((s, i) => updateSemester({ id: s.id, order: i + 1 }, true));
-      if (!currentSemesterId) {
-        setCurrentSemesterId(semesters[0].id);
-      }
+    if (
+      courses &&
+      courses[0] &&
+      !(Object.keys(courses[0]).length === 0) &&
+      Object.getPrototypeOf(courses[0]) === Object.prototype
+    ) {
+      courses.map((s, i) =>
+        updateCourse({ id: s.id, order: i + 1, semester: s.semester }, true)
+      );
     }
-  }, [semesters]);
+  }, [courses]);
 
-  useEffect(() => {
-    setCurrentSemester(semesters.find((s) => s.id == currentSemesterId));
-  }, [currentSemesterId]);
-
-  let updateSemester = async (body, reorder = false) => {
+  let updateCourse = async (body, reorder = false) => {
     if (authToken != null) {
-      fetch(`${apiUrl}grades/semester/${body.id}/`, {
+      fetch(`${apiUrl}grades/course/${body.id}/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -54,9 +54,9 @@ export const SemesterProvider = ({ children }) => {
     }
   };
 
-  let postSemester = async (body) => {
+  let postCourse = async (body) => {
     if (authToken != null) {
-      fetch(`${apiUrl}grades/semester/`, {
+      fetch(`${apiUrl}grades/course/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,15 +72,16 @@ export const SemesterProvider = ({ children }) => {
           else return res.json();
         })
         .then((response) => {
+          console.log(response);
           setToggleEffects(!toggleEffects);
         })
         .catch((error) => console.log(error.message));
     }
   };
 
-  let getSemesters = async () => {
+  let getCourses = async (semesterId) => {
     if (authToken != null) {
-      fetch(`${apiUrl}grades/semester/?limit=12`, {
+      fetch(`${apiUrl}grades/course/?semester=${semesterId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -95,18 +96,15 @@ export const SemesterProvider = ({ children }) => {
           else return res.json();
         })
         .then((response) => {
-          let semestersRes = response.results;
-          if (semestersRes && semestersRes.length > 0)
-            setSemesters(semestersRes);
-          else postSemester({ name: "Semester 1" });
+          setCourses(response);
         })
         .catch((error) => console.log(error.message));
     }
   };
 
-  let deleteSemester = async (id) => {
+  let deleteCourse = async (id) => {
     if (authToken != null) {
-      fetch(`${apiUrl}grades/semester/${id}/`, {
+      fetch(`${apiUrl}grades/course/${id}/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -128,22 +126,20 @@ export const SemesterProvider = ({ children }) => {
   };
 
   let contextData = {
-    semesters: semesters,
-    setSemesters: setSemesters,
-    currentSemester: currentSemester,
-    setCurrentSemester: setCurrentSemester,
-    currentSemesterId: currentSemesterId,
-    setCurrentSemesterId: setCurrentSemesterId,
+    courses: courses,
+    setCourses: setCourses,
+    toggleEffects: toggleEffects,
+    setToggleEffects: setToggleEffects,
 
-    getSemesters: getSemesters,
-    postSemester: postSemester,
-    updateSemester: updateSemester,
-    deleteSemester: deleteSemester,
+    getCourses: getCourses,
+    postCourse: postCourse,
+    updateCourse: updateCourse,
+    deleteCourse: deleteCourse,
   };
 
   return (
-    <SemesterContext.Provider value={contextData}>
+    <CourseContext.Provider value={contextData}>
       {children}
-    </SemesterContext.Provider>
+    </CourseContext.Provider>
   );
 };
