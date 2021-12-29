@@ -20,10 +20,12 @@ export const SemesterList = () => {
     setCurrentSemesterId(semester.id);
   };
 
-  let handleClickCreate = (id, order) => {
-    let element = document.getElementById(`semesterCreate${id}`);
-    let handleEvent = () => {
+  let handleClickCreate = (semester, setIsCreating) => {
+    return () => {
+      let element = document.getElementById(`semesterCreate${semester.id}`);
+      console.log(element);
       let value = element.getElementsByTagName("input")[0].value;
+      let order = semester.order + 1;
       if (value) {
         const semestersArray = Array.from(semesters);
         const semestersAux = semestersArray.splice(order - 1);
@@ -32,17 +34,8 @@ export const SemesterList = () => {
         );
         postSemester({ name: value, order: order });
       }
-      ReactDOM.render(<></>, element);
+      setIsCreating(false);
     };
-    let template = (
-      <OutsideClickHandler handleEvent={handleEvent} className="w-full">
-        <input
-          type="text"
-          className="mt-3 w-full text-sm border border-gray-300 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 py-1.5 px-3 shadow rounded-lg duration-150"
-        />
-      </OutsideClickHandler>
-    );
-    ReactDOM.render(template, element);
   };
 
   let handleClickEdit = (semester, setIsEditing) => {
@@ -108,7 +101,6 @@ export const SemesterList = () => {
                             handleClickDelete={handleClickDelete}
                             isSelected={s.id == currentSemesterId}
                           ></SemesterElement>
-                          <div id={`semesterCreate${s.id}`}></div>
                         </div>
                       )}
                     </Draggable>
