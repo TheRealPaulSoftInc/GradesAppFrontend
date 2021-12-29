@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import OutsideClickHandler from "../utils/OutsideClickHandler";
 
 export const CourseElement = (props) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   return (
     <div className="flex gap-3 lg:gap-0">
       <div className="shadow overflow-hidden border-b border-gray-300 rounded-lg group">
@@ -11,11 +14,29 @@ export const CourseElement = (props) => {
                 colSpan="5"
                 className="bg-indigo-600 text-white font-medium text-lg relative"
               >
-                {props.value.name ? props.value.name : <div>&nbsp;</div>}
+                {isEditing ? (
+                  <div id={`courseEdit${props.value.id}`} className="w-4/5 mx-auto">
+                    <OutsideClickHandler
+                      handleEvent={props.handleClickEdit(
+                        props.value,
+                        setIsEditing
+                      )}
+                    >
+                      <input
+                        type="text"
+                        maxLength="25"
+                        defaultValue={props.value.name}
+                        className="w-full text-black text-center text-sm border border-gray-300 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 py-1 px-3 my-1.5 shadow rounded-lg duration-150"
+                      />
+                    </OutsideClickHandler>
+                  </div>
+                ) : (
+                  <>{props.value.name ? props.value.name : <div>&nbsp;</div>}</>
+                )}
                 <div className="absolute right-0 top-0 h-full hidden group-hover:flex content-center pr-1">
                   <button
                     className="text-gray-200 hover:text-white"
-                    onClick={() => props.handleClickEdit(props.value)}
+                    onClick={() => setIsEditing(true)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

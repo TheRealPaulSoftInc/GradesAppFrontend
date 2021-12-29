@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import ReactDOM from "react-dom";
-import { SemesterElement } from "./SemesterElement";
 import { SemesterContext } from "../context/SemesterContext";
-import OutsideClickHandler from "../utils/OutsideClickHandler";
+import { SemesterElement } from "./SemesterElement";
 
 export const SemesterList = () => {
   let {

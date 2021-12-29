@@ -8,17 +8,26 @@ export const CourseList = (props) => {
   let { courses, postCourse, deleteCourse, updateCourse } =
     useContext(CourseContext);
 
-  let handleOnClick = (e) => {
+  let handleOnCreate = (e) => {
     let name = "Course " + courses.length;
     postCourse({ name: name, semester: currentSemester.id });
   };
 
-  let handleClickEdit = (course) => {
-    updateCourse({
-      name: course.name,
-      id: course.id,
-      semester: course.semester,
-    });
+  let handleClickEdit = (course, setIsEditing) => {
+    return () => {
+      let element = document.getElementById(`courseEdit${course.id}`);
+      console.log(element);
+      let value = element.getElementsByTagName("input")[0].value;
+      console.log(value);
+      if (value) {
+        updateCourse({
+          name: value,
+          id: course.id,
+          semester: course.semester,
+        });
+      }
+      setIsEditing(false);
+    };
   };
 
   let handleClickDelete = (id) => {
@@ -42,7 +51,7 @@ export const CourseList = (props) => {
           <></>
         )}
         <button
-          onClick={(e) => handleOnClick(e)}
+          onClick={(e) => handleOnCreate(e)}
           className="mx-auto ring-offset-2 rounded-lg shadow-md hover:shadow-sm overflow-hidden focus:ring focus:ring-indigo-500 h-10 w-10 duration-150"
         >
           <div className="bg-white h-10 w-10 flex justify-center hover:bg-indigo-500 duration-150 text-gray-500 hover:text-white">
