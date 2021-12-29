@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ApiUrlContext } from "./ApiUrlContext";
@@ -20,13 +26,33 @@ export const AuthProvider = ({ children }) => {
   let [loginErrors, setLoginErrors] = useState({});
   let [registerErrors, setRegisterErrors] = useState({});
 
+  const didMount = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAuthUser();
+    if (didMount.current) {
+      if (authToken) getAuthUser();
+    } else didMount.current = true;
   }, [authToken]);
 
-  let logoutUser = () => {
+  let logoutUser = (isTokenExpired = false) => {
+    if (isTokenExpired)
+      toast.info(
+        <>
+          Your session has expired.
+          <br />
+          Please relogin.
+        </>,
+        {
+          position: "top-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
     setAuthToken(null);
     setUser(null);
     localStorage.removeItem("authToken");
@@ -124,7 +150,7 @@ export const AuthProvider = ({ children }) => {
           if (!res.ok)
             return res.json().then((data) => {
               data["status"] = res.status;
-              logoutUser();
+              logoutUser(true);
               throw new Error(JSON.stringify(data));
             });
           else return res.json();
@@ -134,7 +160,9 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem("user", JSON.stringify(response));
           navigate("/");
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => {
+          console.log(error.message);
+        });
     }
   };
 

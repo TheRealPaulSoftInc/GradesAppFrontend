@@ -11,7 +11,7 @@ export const Navbar = () => {
         GradesApp🪄
       </Link>
       <p
-        onClick={logoutUser}
+        onClick={() => logoutUser()}
         className="hover:bg-slate-200 rounded-md px-3 py-1 text-gray-700 cursor-pointer duration-150"
       >
         Logout

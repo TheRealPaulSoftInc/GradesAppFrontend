@@ -5,7 +5,7 @@ import { ApiUrlContext } from "./ApiUrlContext";
 export const SemesterContext = createContext();
 
 export const SemesterProvider = ({ children }) => {
-  let { authToken } = useContext(AuthContext);
+  let { authToken, logoutUser } = useContext(AuthContext);
   let { apiUrl } = useContext(ApiUrlContext);
 
   let [semesters, setSemesters] = useState([{}]);
@@ -22,6 +22,8 @@ export const SemesterProvider = ({ children }) => {
       semesters.map((s, i) => updateSemester({ id: s.id, order: i + 1 }, true));
       if (!currentSemesterId) {
         setCurrentSemesterId(semesters[0].id);
+      } else {
+        setCurrentSemester(semesters.find((s) => s.id == currentSemesterId));
       }
     }
   }, [semesters]);
@@ -43,6 +45,7 @@ export const SemesterProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -67,6 +70,7 @@ export const SemesterProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -90,6 +94,7 @@ export const SemesterProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -114,9 +119,9 @@ export const SemesterProvider = ({ children }) => {
         },
       })
         .then((res) => {
-          console.log(res);
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
         })

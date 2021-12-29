@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import OutsideClickHandler from "../utils/OutsideClickHandler";
 
-export const SemesterListElement = (props) => {
+export const SemesterElement = (props) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   let wrapClasses =
     "flex justify-between group hover:bg-white active:bg-slate-50 rounded-md";
   let buttonClasses =
-    "p-2 pl-6 group-hover:pl-0 grow text-left text-gray-700 hover:text-gray-500";
+    "p-2 pl-6 text-left text-gray-700 hover:text-gray-500 group-hover:pl-0 w-full";
   if (props.isSelected) {
     wrapClasses += " bg-slate-200";
     buttonClasses += " font-medium";
@@ -31,13 +34,29 @@ export const SemesterListElement = (props) => {
           />
         </svg>
       </div>
-      <button
-        id={`semesterLabel${props.value.id}`}
-        className={buttonClasses}
-        onClick={() => props.handleClickGet(props.value)}
-      >
-        {props.value.name}
-      </button>
+      <div id={`semesterLabel${props.value.id}`} className="grow">
+        {isEditing ? (
+          <OutsideClickHandler
+            handleEvent={props.handleClickEdit(props.value, setIsEditing)}
+          >
+            <div className="px-2 group-hover:px-0">
+              <input
+                type="text"
+                maxlength="15"
+                defaultValue={props.value.name}
+                className="w-full text-sm border border-gray-300 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 py-1 px-3 my-1.5 shadow rounded-lg duration-150"
+              />
+            </div>
+          </OutsideClickHandler>
+        ) : (
+          <button
+            className={buttonClasses}
+            onClick={() => props.handleClickGet(props.value)}
+          >
+            {props.value.name}
+          </button>
+        )}
+      </div>
       <div className="w-max p-2 hidden group-hover:flex flex-row gap-1 items-center">
         <button
           className="text-gray-700 hover:text-gray-400"
@@ -60,7 +79,7 @@ export const SemesterListElement = (props) => {
         </button>
         <button
           className="text-gray-700 hover:text-gray-500"
-          onClick={() => props.handleClickEdit(props.value)}
+          onClick={() => setIsEditing(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

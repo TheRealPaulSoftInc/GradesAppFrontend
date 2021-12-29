@@ -22,6 +22,15 @@ export const RegisterPage = () => {
               to your email
             </p>
             <p className="text-center text-6xl">✉️</p>
+            {/* <p>
+              resend the verification email&nbsp;
+              <a
+                onClick={() => resendActivationLink(email)}
+                className="font-medium underline decoration-solid text-indigo-600 cursor-pointer"
+              >
+                Here
+              </a>
+            </p> */}
           </>
         ) : (
           <>

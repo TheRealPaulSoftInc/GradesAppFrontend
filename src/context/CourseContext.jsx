@@ -6,7 +6,7 @@ import { ApiUrlContext } from "./ApiUrlContext";
 export const CourseContext = createContext();
 
 export const CourseProvider = ({ children }) => {
-  let { authToken } = useContext(AuthContext);
+  let { authToken, logoutUser } = useContext(AuthContext);
   let { apiUrl } = useContext(ApiUrlContext);
   let { currentSemesterId } = useContext(SemesterContext);
 
@@ -43,6 +43,7 @@ export const CourseProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -67,6 +68,7 @@ export const CourseProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -91,6 +93,7 @@ export const CourseProvider = ({ children }) => {
         .then((res) => {
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
           else return res.json();
@@ -115,6 +118,7 @@ export const CourseProvider = ({ children }) => {
           console.log(res);
           if (!res.ok)
             return res.text().then((message) => {
+              if (res.status == 401) logoutUser(true);
               throw new Error(message);
             });
         })
@@ -128,8 +132,6 @@ export const CourseProvider = ({ children }) => {
   let contextData = {
     courses: courses,
     setCourses: setCourses,
-    toggleEffects: toggleEffects,
-    setToggleEffects: setToggleEffects,
 
     getCourses: getCourses,
     postCourse: postCourse,

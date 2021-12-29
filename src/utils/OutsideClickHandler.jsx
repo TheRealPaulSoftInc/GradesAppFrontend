@@ -16,11 +16,11 @@ function useOutsideHandler(ref, handleEvent) {
     function handleEnterKey(e) {
       if (e.key === "Enter") handleEvent();
     }
-    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mousedown", handleMouseUp);
     document.addEventListener("keypress", handleEnterKey);
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousedown", handleMouseUp);
       document.removeEventListener("keypress", handleEnterKey);
     };
   }, [ref]);

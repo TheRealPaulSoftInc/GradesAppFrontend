@@ -1,6 +1,6 @@
 import React from "react";
 import { SemesterList } from "../components/SemesterList";
-import { SemesterView } from "../components/SemesterView";
+import { CourseList } from "../components/CourseList";
 
 export const HomePage = () => {
   return (
@@ -10,7 +10,7 @@ export const HomePage = () => {
         style={{ height: "calc(100vh - 3rem)" }}
       >
         <SemesterList></SemesterList>
-        <SemesterView></SemesterView>
+        <CourseList></CourseList>
       </div>
     </>
   );

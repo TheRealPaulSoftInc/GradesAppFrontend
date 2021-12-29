@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import ReactDOM from "react-dom";
-import { SemesterListElement } from "../components/SemesterListElement";
+import { SemesterElement } from "./SemesterElement";
 import { SemesterContext } from "../context/SemesterContext";
 import OutsideClickHandler from "../utils/OutsideClickHandler";
 
@@ -32,7 +32,7 @@ export const SemesterList = () => {
         );
         postSemester({ name: value, order: order });
       }
-      ReactDOM.render(<div id={`semesterCreate${id}`}></div>, element);
+      ReactDOM.render(<></>, element);
     };
     let template = (
       <OutsideClickHandler handleEvent={handleEvent} className="w-full">
@@ -45,24 +45,15 @@ export const SemesterList = () => {
     ReactDOM.render(template, element);
   };
 
-  let handleClickEdit = (semester) => {
-    let element = document.getElementById(`semesterLabel${semester.id}`);
-    let handleEvent = () => {
+  let handleClickEdit = (semester, setIsEditing) => {
+    return () => {
+      let element = document.getElementById(`semesterLabel${semester.id}`);
       let value = element.getElementsByTagName("input")[0].value;
       if (value) {
         updateSemester({ id: semester.id, order: semester.order, name: value });
       }
-      ReactDOM.render(<div id={`semesterCreate${semester.id}`}></div>, element);
+      setIsEditing(false);
     };
-    let template = (
-      <OutsideClickHandler handleEvent={handleEvent} className="w-full">
-        <input
-          type="text"
-          className="w-full text-sm border border-gray-300 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 py-1.5 px-3 shadow rounded-lg duration-150"
-        />
-      </OutsideClickHandler>
-    );
-    ReactDOM.render(template, element);
   };
 
   let handleClickDelete = (id) => {
@@ -108,7 +99,7 @@ export const SemesterList = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                         >
-                          <SemesterListElement
+                          <SemesterElement
                             value={s}
                             dragHandleProps={provided.dragHandleProps}
                             handleClickGet={handleClickGet}
@@ -116,7 +107,7 @@ export const SemesterList = () => {
                             handleClickEdit={handleClickEdit}
                             handleClickDelete={handleClickDelete}
                             isSelected={s.id == currentSemesterId}
-                          ></SemesterListElement>
+                          ></SemesterElement>
                           <div id={`semesterCreate${s.id}`}></div>
                         </div>
                       )}

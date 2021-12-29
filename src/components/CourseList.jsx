@@ -1,27 +1,43 @@
 import React, { useContext, useEffect } from "react";
 import { CourseContext } from "../context/CourseContext";
 import { SemesterContext } from "../context/SemesterContext";
-import { Course } from "./Course";
+import { CourseElement } from "./CourseElement";
 
-export const SemesterView = (props) => {
+export const CourseList = (props) => {
   let { currentSemester } = useContext(SemesterContext);
-  let { courses, postCourse } = useContext(CourseContext);
+  let { courses, postCourse, deleteCourse, updateCourse } =
+    useContext(CourseContext);
 
   let handleOnClick = (e) => {
     let name = "Course " + courses.length;
     postCourse({ name: name, semester: currentSemester.id });
   };
 
-  useEffect(() => {
-    courses.map((c) => console.log(c));
-  }, []);
+  let handleClickEdit = (course) => {
+    updateCourse({
+      name: course.name,
+      id: course.id,
+      semester: course.semester,
+    });
+  };
+
+  let handleClickDelete = (id) => {
+    deleteCourse(id);
+  };
 
   return (
     <div className="mx-auto 2xl:w-2/5 xl:w-1/2 lg:w-1/2">
       <h1 className="text-3xl font-semibold mb-4">{currentSemester.name}</h1>
       <div className="flex flex-col justify-center gap-8">
         {courses.length > 0 ? (
-          courses.map((c) => <Course model={c} key={`course${c.id}`}></Course>)
+          courses.map((c) => (
+            <CourseElement
+              value={c}
+              key={`course${c.id}`}
+              handleClickEdit={handleClickEdit}
+              handleClickDelete={handleClickDelete}
+            ></CourseElement>
+          ))
         ) : (
           <></>
         )}
