@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Navbar } from "./components/Navbar";
+import { ApiUrlProvider } from "./context/ApiUrlContext";
 import { AuthProvider } from "./context/AuthContext";
+import { CourseProvider } from "./context/CourseContext";
 import { SemesterProvider } from "./context/SemesterContext";
 import { ActivationPage } from "./pages/ActivationPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { RequireAuth } from "./utils/RequireAuth";
-import { ApiUrlProvider } from "./context/ApiUrlContext";
-import { CourseProvider } from "./context/CourseContext";
+
 export class App extends Component {
   render() {
     return (

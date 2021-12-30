@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import OutsideClickHandler from "../utils/OutsideClickHandler";
+import { GradeContext } from "../context/GradeContext";
+import NumberFormat from "react-number-format";
 
 export const CourseElement = (props) => {
   const [isEditing, setIsEditing] = useState(false);
+  let { grades, getGrades, postGrade, deleteGrade, updateGrade } =
+    useContext(GradeContext);
+
+  function limit(val, max) {
+    if (val.length === 1 && val[0] > max[0]) {
+      val = "0" + val;
+    }
+
+    if (val.length === 2) {
+      if (val > max) {
+        val = max;
+      }
+    }
+
+    return val;
+  }
+
+  let gradeFormat = (val) => {
+    let integer = limit(val.substring(0, 2), "20");
+    let decimal = limit(val.substring(2, 5), "999");
+    let decimalFormated = decimal ? "." + decimal : "";
+    if (val.length === 0) {
+      return "00";
+    }
+    return integer + decimalFormated;
+  };
+
+  let weightFormat = (val) => {
+    let integer = limit(val.substring(0, 2), "99");
+    let decimal = limit(val.substring(2, 5), "999");
+    let decimalFormated = decimal ? "." + decimal : "";
+    return integer + decimalFormated + "%";
+  };
+
+  let editGrade = ({ grade, name, weight, score }) => {
+    let body = { id: grade.id, course: grade.course };
+    if (name && name != grade.name) body["name"] = name;
+    if (weight && weight != grade.weight) body["weight"] = weight.split("%")[0];
+    if (score && score != grade.score) body["score"] = score;
+    if (Object.keys(body).length > 2) updateGrade(body);
+  };
 
   return (
     <div className="flex gap-3 lg:gap-0">
@@ -15,7 +58,10 @@ export const CourseElement = (props) => {
                 className="bg-indigo-600 text-white font-medium text-lg relative"
               >
                 {isEditing ? (
-                  <div id={`courseEdit${props.value.id}`} className="w-4/5 mx-auto">
+                  <div
+                    id={`courseEdit${props.value.id}`}
+                    className="w-4/5 mx-auto"
+                  >
                     <OutsideClickHandler
                       handleEvent={props.handleClickEdit(
                         props.value,
@@ -79,7 +125,7 @@ export const CourseElement = (props) => {
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider border-x border-indigo-200"
               >
-                Weight (%)
+                Weight
               </th>
               <th
                 scope="col"
@@ -90,16 +136,45 @@ export const CourseElement = (props) => {
             </tr>
           </thead>
           <tbody className="bg-white">
-            {/* divide-y divide-gray-200 */}
-            <tr>
-              <td colSpan="3" className="px-6 py-4 whitespace-nowrap">
-                ga
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap border-x border-indigo-200">
-                ga
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">ga</td>
-            </tr>
+            {grades ? (
+              grades.map((g) => (
+                <tr key={`grade${g.id}`}>
+                  <td colSpan="3" className="px-6 py-4 whitespace-nowrap">
+                    <input
+                      className="w-full focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded-sm cursor-pointer"
+                      type="text"
+                      maxLength="25"
+                      defaultValue={g.name}
+                      onBlur={(e) =>
+                        editGrade({ grade: g, name: e.target.value })
+                      }
+                    />
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap border-x border-indigo-200">
+                    <NumberFormat
+                      className="w-full focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded-sm cursor-pointer"
+                      defaultValue={g.weight}
+                      onBlur={(e) =>
+                        editGrade({ grade: g, weight: e.target.value })
+                      }
+                      format={weightFormat}
+                    ></NumberFormat>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <NumberFormat
+                      className="w-full focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded-sm cursor-pointer"
+                      defaultValue={g.score}
+                      onBlur={(e) =>
+                        editGrade({ grade: g, score: e.target.value })
+                      }
+                      format={gradeFormat}
+                    ></NumberFormat>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <></>
+            )}
           </tbody>
         </table>
       </div>

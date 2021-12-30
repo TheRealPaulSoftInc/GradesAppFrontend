@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { CourseContext } from "../context/CourseContext";
 import { SemesterContext } from "../context/SemesterContext";
 import { CourseElement } from "./CourseElement";
+import { GradeProvider } from "../context/GradeContext";
 
 export const CourseList = (props) => {
   let { currentSemester } = useContext(SemesterContext);
@@ -9,16 +10,14 @@ export const CourseList = (props) => {
     useContext(CourseContext);
 
   let handleOnCreate = (e) => {
-    let name = "Course " + courses.length;
+    let name = "Course " + (courses.length + 1);
     postCourse({ name: name, semester: currentSemester.id });
   };
 
   let handleClickEdit = (course, setIsEditing) => {
     return () => {
       let element = document.getElementById(`courseEdit${course.id}`);
-      console.log(element);
       let value = element.getElementsByTagName("input")[0].value;
-      console.log(value);
       if (value) {
         updateCourse({
           name: value,
@@ -40,12 +39,15 @@ export const CourseList = (props) => {
       <div className="flex flex-col justify-center gap-8">
         {courses.length > 0 ? (
           courses.map((c) => (
-            <CourseElement
-              value={c}
-              key={`course${c.id}`}
-              handleClickEdit={handleClickEdit}
-              handleClickDelete={handleClickDelete}
-            ></CourseElement>
+            <div key={`course${c.id}`}>
+              <GradeProvider courseId={c.id}>
+                <CourseElement
+                  value={c}
+                  handleClickEdit={handleClickEdit}
+                  handleClickDelete={handleClickDelete}
+                ></CourseElement>
+              </GradeProvider>
+            </div>
           ))
         ) : (
           <></>
