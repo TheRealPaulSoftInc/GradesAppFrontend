@@ -39,12 +39,16 @@ export const CourseElement = (props) => {
     return integer + decimalFormated + "%";
   };
 
-  let editGrade = ({ grade, name, weight, score }) => {
+  let handleEditGrade = ({ grade, name, weight, score }) => {
     let body = { id: grade.id, course: grade.course };
     if (name && name != grade.name) body["name"] = name;
     if (weight && weight != grade.weight) body["weight"] = weight.split("%")[0];
     if (score && score != grade.score) body["score"] = score;
     if (Object.keys(body).length > 2) updateGrade(body);
+  };
+
+  let handleDeleteGrade = (id) => {
+    if (grades.length > 1) deleteGrade(id);
   };
 
   return (
@@ -145,9 +149,7 @@ export const CourseElement = (props) => {
                         <div className="h-7 w-7 bg-white rounded-md shadow-md flex items-center justify-center">
                           <button
                             className="text-gray-700 hover:text-red-500"
-                            onClick={() =>
-                              props.handleClickDelete(props.value.id)
-                            }
+                            onClick={() => handleDeleteGrade(g.id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +192,7 @@ export const CourseElement = (props) => {
                       maxLength="25"
                       defaultValue={g.name}
                       onBlur={(e) =>
-                        editGrade({ grade: g, name: e.target.value })
+                        handleEditGrade({ grade: g, name: e.target.value })
                       }
                     />
                   </td>
@@ -199,7 +201,7 @@ export const CourseElement = (props) => {
                       className="w-full focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded-sm cursor-pointer"
                       defaultValue={g.weight}
                       onBlur={(e) =>
-                        editGrade({ grade: g, weight: e.target.value })
+                        handleEditGrade({ grade: g, weight: e.target.value })
                       }
                       format={weightFormat}
                     ></NumberFormat>
@@ -209,7 +211,7 @@ export const CourseElement = (props) => {
                       className="w-full focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded-sm cursor-pointer"
                       defaultValue={g.score}
                       onBlur={(e) =>
-                        editGrade({ grade: g, score: e.target.value })
+                        handleEditGrade({ grade: g, score: e.target.value })
                       }
                       format={gradeFormat}
                     ></NumberFormat>
