@@ -73,7 +73,6 @@ export const GradeProvider = ({ courseId, children }) => {
           else return res.json();
         })
         .then((response) => {
-          console.log(response);
           setToggleEffects(!toggleEffects);
         })
         .catch((error) => console.log(error.message));

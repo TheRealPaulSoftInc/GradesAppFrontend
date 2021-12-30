@@ -51,6 +51,12 @@ export const CourseElement = (props) => {
     if (grades.length > 1) deleteGrade(id);
   };
 
+  let handleCreateGrade = (e) => {
+    let name = "Evaluation " + (grades.length + 1);
+    postGrade({ name: name, course: props.value.id });
+    console.log(props.value);
+  };
+
   return (
     <div className="flex gap-3 lg:gap-0">
       <div className="shadow border-b border-gray-300 rounded-lg">
@@ -168,7 +174,7 @@ export const CourseElement = (props) => {
                         <div className="h-7 w-7 bg-white rounded-md shadow-md flex items-center justify-center">
                           <button
                             className="text-gray-700 hover:text-gray-400"
-                            onClick={() => console.log("pressed")}
+                            onClick={() => handleCreateGrade()}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
